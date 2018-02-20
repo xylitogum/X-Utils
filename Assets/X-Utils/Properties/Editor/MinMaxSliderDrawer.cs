@@ -20,7 +20,7 @@ class MinMaxSliderDrawer : PropertyDrawer
             // Draw MinMax Slider
             EditorGUI.BeginChangeCheck();
             Rect rect = new Rect(position.x, position.y, position.width, position.height / 2f);
-            EditorGUI.MinMaxSlider(position, label, ref min, ref max, attr.min, attr.max);
+            EditorGUI.MinMaxSlider(rect, label, ref min, ref max, attr.min, attr.max);
             if (EditorGUI.EndChangeCheck())
             {
                 range.x = min;
