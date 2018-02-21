@@ -28,7 +28,7 @@ namespace X_Utils
 
     }
 
-    ppublic static class Vector3Extension
+    public static class Vector3Extension
     {
         // Get XY part of Vector3. Well, typecasting is better.
         public static Vector2 GetXY(this Vector3 v3)
