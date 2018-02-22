@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace NeuralNetwork
+namespace X_Util.NeuralNetwork
 {
     /// <summary>
     /// Represents a neuron cell
