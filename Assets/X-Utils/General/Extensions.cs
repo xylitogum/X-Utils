@@ -8,21 +8,19 @@ namespace X_Utils
     public static class Collision2DExtension
     {
         /// <summary>
-        /// Calculates the kinetic energy of this incoming collision according to the speed and mass.
+        /// Calculates the Impulse of this incoming collision by multiplying the force with the duration.
         /// </summary>
-        /// <returns>The energy.</returns>
+        /// <returns>The impulse, in (N * s).</returns>
         /// <param name="col">Collision information.</param>
-        public static float KineticEnergy(this Collision2D col)
+        public static float Impulse(this Collision2D col)
         {
-            float incomeVelocity = 0f;
-            float kinectEnergy = 0f;
-            incomeVelocity = Vector3.Dot(col.relativeVelocity, -col.contacts[0].normal);
-            if (col.otherRigidbody)
-            {
-                kinectEnergy = 0.5f * col.otherRigidbody.mass * Mathf.Pow(incomeVelocity, 2f);
+            float totalImpulse = 0f;
+            ContactPoint2D[] contacts = new ContactPoint2D[16];
+            int contactCount = col.GetContacts(contacts);
+            for (int i = 0; i < contactCount; i++) {
+                totalImpulse += contacts[i].normalImpulse * Time.fixedDeltaTime;
             }
-
-            return kinectEnergy;
+            return totalImpulse;
         }
 
 
