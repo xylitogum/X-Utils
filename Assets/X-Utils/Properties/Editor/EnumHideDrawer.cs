@@ -1,7 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System;
 
 [CustomPropertyDrawer(typeof(EnumHideAttribute))]
 class EnumHideDrawer : PropertyDrawer
@@ -37,16 +38,19 @@ class EnumHideDrawer : PropertyDrawer
         string propertyPath = property.propertyPath; //returns the property path of the property we want to apply the attribute to
         string enumPath = propertyPath.Replace(property.name, enumHAtt.EnumSourceField); //changes the path to the enumsource property path
         int sourcePropertyValue = property.serializedObject.FindProperty(enumPath).enumValueIndex;
-        
-
-        if (sourcePropertyValue == enumHAtt.EnumOption)
+        if (enumHAtt.EnumOptionName != "")
+        {
+            if (property.serializedObject.FindProperty(enumPath).enumNames[sourcePropertyValue] == enumHAtt.EnumOptionName)
+            {
+                enabled = true;
+            }
+            
+        }
+        else if (sourcePropertyValue == enumHAtt.EnumOption)
         {
             enabled = true;
         }
-        else
-        {
-            //Debug.LogWarning("Attempting to use a ConditionalHideAttribute but no matching SourcePropertyValue found in object: " + enumHAtt.EnumSourceField);
-        }
+
 
         return enabled;
     }
