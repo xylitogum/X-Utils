@@ -36,7 +36,7 @@ This example above will display the string field named "testString" on when the 
 
 
 # EnumHide
-EnumHide is an upgraded version of 'ConditionalHide' to place upon any serialized properties. Except it displays the property depending on an Enum.
+EnumHide is an upgraded version of 'ConditionalHide' to place upon any serialized properties. Except it displays the property depending on an Enum. It takes in an additional parameter which is either the index of the expected enum value in integer or the name of it in string.
 
 ```csharp
 public enum MovementType {
@@ -59,3 +59,11 @@ public float swimDepth;
 public float flyHeight;
 ```
 This example above will display the float field named "swimDepth" on when the enum field named "movementType" is set to MovementType.Swim, and display the float field named "flyHeight" on when the enum field named "movementType" is set to MovementType.Fly. Otherwise, hides them respectively.
+
+```csharp
+[EnumHide("movementType", "Swim", true)]
+public float swimDepth;
+[EnumHide("movementType", "Fly", true)]
+public float flyHeight;
+```
+This example above will function exactly same as the one above it.
