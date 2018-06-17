@@ -32,7 +32,7 @@ public bool showProperties = false;
 [ConditionalHide("showProperties", false)]
 public string testString;
 ```
-This example above will display the string field named "testString" on when the bool field named "showProperties" is marked false. Otherwise, hides it.
+This example above will not hide the field when the bool is set to false, instead it disables it.
 
 
 # EnumHide
