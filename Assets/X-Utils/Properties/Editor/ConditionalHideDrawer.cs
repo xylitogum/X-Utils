@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -31,15 +31,26 @@ class ConditionalHideDrawer : PropertyDrawer
 
     private bool GetConditionalHideAttributeResult(ConditionalHideAttribute condHAtt, SerializedProperty property)
     {
+        
         bool enabled = true;
-        //Look for the sourcefield within the object that the property belongs to
-        string propertyPath = property.propertyPath; //returns the property path of the property we want to apply the attribute to
-        string conditionPath = propertyPath.Replace(property.name, condHAtt.ConditionalSourceField); //changes the path to the conditionalsource property path
-        SerializedProperty sourcePropertyValue = property.serializedObject.FindProperty(conditionPath);
-
-        if (sourcePropertyValue != null)
+        
+        string[] variableName = property.propertyPath.Split('.');
+        if (variableName.Length <= 0) Debug.LogError("Property Path of EnumHide Attribute is not valid.");
+        SerializedObject sourceObject = property.serializedObject;
+        SerializedProperty sourceProperty = sourceObject.FindProperty(variableName[0]);
+        string sourcePropertyPath = sourceProperty.propertyPath; 
+        
+        string conditionPath = sourcePropertyPath.Replace(sourceProperty.name, condHAtt.ConditionalSourceField);
+        SerializedProperty resultProperty = sourceObject.FindProperty(conditionPath);
+        
+        if (variableName.Length > 1 && variableName[1] == "Array") // Property is an element insied an array
         {
-            enabled = sourcePropertyValue.boolValue;
+            // WARNING: ConditionalHide is not fully supported on Array objects.
+            
+        }
+        if (resultProperty != null)
+        {
+            enabled = resultProperty.boolValue;
         }
         else
         {
