@@ -10,6 +10,8 @@ class EnumHideDrawer : PropertyDrawer
 
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
+        
+        
         //get the attribute data
         EnumHideAttribute enumHAtt = (EnumHideAttribute)attribute;
         //check if the propery we want to draw should be enabled
@@ -28,28 +30,51 @@ class EnumHideDrawer : PropertyDrawer
 
         //Ensure that the next property that is being drawn uses the correct settings
         GUI.enabled = wasEnabled;
+        
     }
 
 
     private bool GetEnumHideAttributeResult(EnumHideAttribute enumHAtt, SerializedProperty property)
     {
+        
         bool enabled = false;
-        //Look for the sourcefield within the object that the property belongs to
-        string propertyPath = property.propertyPath; //returns the property path of the property we want to apply the attribute to
-        string enumPath = propertyPath.Replace(property.name, enumHAtt.EnumSourceField); //changes the path to the enumsource property path
-        int sourcePropertyValue = property.serializedObject.FindProperty(enumPath).enumValueIndex;
-        if (enumHAtt.EnumOptionName != "")
+        
+        string[] variableName = property.propertyPath.Split('.');
+        if (variableName.Length <= 0) Debug.LogError("Property Path of EnumHide Attribute is not valid.");
+        SerializedObject sourceObject = property.serializedObject;
+        SerializedProperty sourceProperty = sourceObject.FindProperty(variableName[0]);
+        string sourcePropertyPath = sourceProperty.propertyPath; 
+        
+        string enumPath = sourcePropertyPath.Replace(sourceProperty.name, enumHAtt.EnumSourceField);
+        SerializedProperty resultProperty = sourceObject.FindProperty(enumPath);
+       
+        
+        if (variableName.Length > 1 && variableName[1] == "Array") // Property is an element insied an array
         {
-            if (property.serializedObject.FindProperty(enumPath).enumNames[sourcePropertyValue] == enumHAtt.EnumOptionName)
+            // WARNING: EnumHide is not fully supported on Array objects.
+            
+        }
+        
+        
+        if (resultProperty != null)
+        {
+            int resultPropertyValue = resultProperty.enumValueIndex;
+            if (enumHAtt.EnumOptionName != "")
+            {
+                if (resultProperty.enumNames[resultPropertyValue] == enumHAtt.EnumOptionName)
+                {
+                    enabled = true;
+                }
+            
+            }
+            else if (resultPropertyValue == enumHAtt.EnumOption)
             {
                 enabled = true;
             }
             
+            Debug.LogWarning("Attempting to use a EnumHideAttribute but no matching SourcePropertyValue found in object: " + enumHAtt.EnumSourceField);
         }
-        else if (sourcePropertyValue == enumHAtt.EnumOption)
-        {
-            enabled = true;
-        }
+        
 
 
         return enabled;
@@ -57,6 +82,7 @@ class EnumHideDrawer : PropertyDrawer
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
+        
         EnumHideAttribute enumHAtt = (EnumHideAttribute)attribute;
         bool enabled = GetEnumHideAttributeResult(enumHAtt, property);
 
