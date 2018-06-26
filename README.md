@@ -10,4 +10,6 @@ This is a project where I put all the utility scripts I found generally useful, 
   - Machine Learning scripts including Neural Networks.
 - Properties
   - Additional Property Attributes that are used to manipulate how properties can be displayed and interacted within Unity's Inpsector UI.
+- UI
+  - UI Effect scripts that animates UI texts, images or buttons in a script-controlled manner.
   
