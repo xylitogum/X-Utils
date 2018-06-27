@@ -2,20 +2,26 @@
 Attributes that manipulate with properties being displayed on InspectorGUI are placed under this folder.
 
 # MinMaxSlider
-MinMaxSlider is a type of property attribute to place upon Vector2. It uses the x value of the vector2 as the minimum value, and the y value of the vector2 as the maximum value, to create a specified range between them.
+MinMaxSlider is a type of property attribute to place upon Vector2. It uses the x value of the vector2 as the minimum value, and the y value of the vector2 as the maximum value, to create a specified range between them. The range can be modified either by dragging the slider bar, or by input the min and max boundary values directly.
 
 Examples:
 
 ```csharp
-[MinMaxSlider(-1.0f, 1.0f)]
+[MinMaxSlider(0f, 1.0f)]
 ```
+![alt text](https://github.com/xylitogum/X-Utils/tree/master/Screenshots/range_example_1.png "MinMaxSlider Example 1")
 This example above will create a slider for a Vector2(float, float) between -1.0f and 1.0f.
 
 
+# Disabled
+Disable is a type of property attribute that hides the serialized property which it is placed upon.
 ```csharp
-[MinMaxSlider(-1, 1, true)]
+[Disabled]
+public string testString;
 ```
-This example above will create a integer slider for a Vector2(int, int) between -1 and 1.
+![alt text](https://github.com/xylitogum/X-Utils/tree/master/Screenshots/disabled_example_1.png "Disabled Example 1")
+This example above will display the string field named "testString", but the user is unable to edit its value through InspectorGUI.
+
 
 # ConditionalHide
 ConditionalHide is a type of property attribute to place upon any serialized properties. It reads another specified bool variable (with variable name given in string) and hides or displays the corresponding property depending on that value.
@@ -32,11 +38,11 @@ public bool showProperties = false;
 [ConditionalHide("showProperties", false)]
 public string testString;
 ```
-This example above will not hide the field when the bool is set to false, instead it disables it.
+This example above will not hide the field when the bool is set to false, instead disables it.
 
 
 # EnumHide
-EnumHide is an upgraded version of 'ConditionalHide' to place upon any serialized properties. Except it displays the property depending on an Enum. It takes in an additional parameter which is either the index of the expected enum value in integer or the name of it in string.
+EnumHide is an upgraded version of 'ConditionalHide' to place upon any serialized properties, except it displays the property depending on an Enum. It takes in an additional parameter which is either the index of the expected enum value in integer or the name of it in string.
 
 ```csharp
 public enum MovementType {
