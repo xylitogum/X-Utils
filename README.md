@@ -3,6 +3,7 @@ This project contains most utility scripts that are found generally useful for t
 Supports any version of Unity that is at least 2017.4 or later.
 
 # Contents
+Scripts are located under the Assets folder, and divided into the following modules:
 - General
   - General handy classes and functions including Maths, Physics, Extensions, QuickRenderers.
 - MechanimAI
@@ -16,5 +17,7 @@ Supports any version of Unity that is at least 2017.4 or later.
   - UI Effect scripts that animates UI texts, images or buttons in a customizable manner.
 
 # Contact
+
 QQ: 294358341
+
 Email: Xylitogum@gmail.com
