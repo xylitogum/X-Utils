@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace X-Utils.UI
+namespace X_Utils.UI
 {
     [RequireComponent(typeof(RectTransform))]
     public class AnimateFloating : MonoBehaviour
@@ -13,9 +13,16 @@ namespace X-Utils.UI
         RectTransform rect;
         Vector3 pivotPos;
         // Use this for initialization
-        void Start()
+
+        void Awake()
         {
             rect = GetComponent<RectTransform>();
+        }
+        
+        
+        void Start()
+        {
+            
             pivotPos = rect.localPosition;
         }
 
