@@ -25,7 +25,7 @@ namespace X_Utils.UI
 		
 
 		#region EXTERNAL_FIELDS
-		
+		[Header("CrossFade Settings")]
 		[Tooltip("Determines how long the crossfade takes.")]
 		[Range(0f, 10f)]
 		public float duration = 1f;
@@ -33,16 +33,16 @@ namespace X_Utils.UI
 		public Gradient colorOverLifeTime;
 		[Tooltip("Determines how the size of this UI element will change during the crossfade")]
 		public AnimationCurve sizeOverLifeTime = AnimationCurve.Constant(0f, 1f, 1f);
-		[Tooltip("Check this box when you don't want the crossfade timer to be affected by TimeScale.")]
-		public bool ignoreTimeScale = false;
-		
 		[Tooltip("Determines whether the CrossFade curves will multiply the initial values, or will overwrite them")]
 		public MixMode mixMode = MixMode.Multiply;
 		[Tooltip("Determines how the crossfade is activated, either by manually calling the Activate() function, or self activates on start.")]
 		public ActivationMode activationMode = ActivationMode.OnStart;
+		
+		[Header("Advanced Settings")]
 		[Tooltip("Check this box if you wish this UI element to be trackable by mouse or other raycast inputs during the crossfade.")]
 		public bool enableRaycastTarget = false;
-
+		[Tooltip("Check this box when you don't want the crossfade timer to be affected by TimeScale.")]
+		public bool ignoreTimeScale = false;
 		[Tooltip("These actions will be invoked when the crossfade activates.")]
 		public UnityEvent onActivatedEvent;
 		[Tooltip("These actions will be invoked when the crossfade finishes.")]
