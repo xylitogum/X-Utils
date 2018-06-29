@@ -9,7 +9,7 @@ Examples:
 ```csharp
 [MinMaxSlider(0f, 1.0f)]
 ```
-![Figure-Properties-MinMaxSlider-1](https://github.com/xylitogum/X-Utils/tree/master/Screenshots/range_example_1.png?raw=true "MinMaxSlider Example 1")
+![Figure-Properties-MinMaxSlider-1](https://raw.github.com/xylitogum/X-Utils/tree/master/Screenshots/range_example_1.png?raw=true "MinMaxSlider Example 1")
 This example above will create a slider for a Vector2(float, float) between -1.0f and 1.0f.
 
 
@@ -19,7 +19,7 @@ Disable is a type of property attribute that hides the serialized property which
 [Disabled]
 public string testString;
 ```
-![Figure-Properties-Disabled-1](https://github.com/xylitogum/X-Utils/tree/master/Screenshots/disabled_example_1.png?raw=true "Disabled Example 1")
+![Figure-Properties-Disabled-1](https://raw.github.com/xylitogum/X-Utils/tree/master/Screenshots/disabled_example_1.png?raw=true "Disabled Example 1")
 This example above will display the string field named "testString", but the user is unable to edit its value through InspectorGUI.
 
 
