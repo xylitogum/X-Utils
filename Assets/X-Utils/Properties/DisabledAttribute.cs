@@ -5,7 +5,7 @@ using System;
 
 
 [AttributeUsage(AttributeTargets.Field | AttributeTargets.Property |
-                AttributeTargets.Class | AttributeTargets.Struct, Inherited = true)]
+                AttributeTargets.Class | AttributeTargets.Struct, Inherited = true, AllowMultiple = true)]
 public class DisabledAttribute : PropertyAttribute {
 	
     

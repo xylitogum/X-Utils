@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 namespace X_Utils.UI
 {
+    
     [RequireComponent(typeof(Text))]
     public class RainbowTextScroller : MonoBehaviour
     {

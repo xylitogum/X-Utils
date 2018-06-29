@@ -6,6 +6,10 @@ using UnityEngine.UI;
 
 namespace X_Utils.UI
 {
+	
+	/// <summary>
+	/// Represents a component that controls the crossfade process of UI elements.
+	/// </summary>
 	[RequireComponent(typeof(MaskableGraphic))]
 	[RequireComponent(typeof(RectTransform))]
 	public class CrossFadeCurve : MonoBehaviour
@@ -19,7 +23,7 @@ namespace X_Utils.UI
 
 		public enum ActivationMode
 		{
-			Manual, // You need to call Activate() method in order to start the cross fade.
+			Manual, // You need to call the Activate() method in order to start the cross fade.
 			OnStart, // CrossFade activates automatically when it is loaded.
 		}
 		
@@ -29,11 +33,11 @@ namespace X_Utils.UI
 		[Tooltip("Determines how long the crossfade takes.")]
 		[Range(0f, 10f)]
 		public float duration = 1f;
-		[Tooltip("Determines how the color of this UI element will change during the crossfade")]
+		[Tooltip("Determines how the color of this UI element will change during the crossfade.")]
 		public Gradient colorOverLifeTime;
-		[Tooltip("Determines how the size of this UI element will change during the crossfade")]
+		[Tooltip("Determines how the size of this UI element will change during the crossfade.")]
 		public AnimationCurve sizeOverLifeTime = AnimationCurve.Constant(0f, 1f, 1f);
-		[Tooltip("Determines whether the CrossFade curves will multiply the initial values, or will overwrite them")]
+		[Tooltip("Determines whether the CrossFade curves will multiply the initial values, or will overwrite them.")]
 		public MixMode mixMode = MixMode.Multiply;
 		[Tooltip("Determines how the crossfade is activated, either by manually calling the Activate() function, or self activates on start.")]
 		public ActivationMode activationMode = ActivationMode.OnStart;
@@ -48,6 +52,61 @@ namespace X_Utils.UI
 		[Tooltip("These actions will be invoked when the crossfade finishes.")]
 		public UnityEvent onFinishedEvent;
 
+
+		[ContextMenu("Set to Fade In")]
+		void TemplateFadeIn()
+		{
+			// Set Gradient to Fade In White
+			Gradient g = new Gradient();
+			GradientColorKey[] gck = new GradientColorKey[2];
+			gck[0].color = Color.white;
+			gck[0].time = 0f;
+			gck[1].color = Color.white;
+			gck[1].time = 1f;
+			GradientAlphaKey[] gak = new GradientAlphaKey[2];
+			gak[0].alpha = 0f;
+			gak[0].time = 0f;
+			gak[1].alpha = 1f;
+			gak[1].time = 1f;
+			g.SetKeys(gck, gak);
+			colorOverLifeTime = g;
+			
+			sizeOverLifeTime = AnimationCurve.Constant(0f, 1f, 1f);
+			mixMode = MixMode.Multiply;
+			activationMode = ActivationMode.OnStart;
+			enableRaycastTarget = false;
+		}
+		
+		[ContextMenu("Set to Fade Out")]
+		void TemplateFadeOut()
+		{
+			
+			// Set Gradient to Fade In White
+			Gradient g = new Gradient();
+			GradientColorKey[] gck = new GradientColorKey[2];
+			gck[0].color = Color.white;
+			gck[0].time = 0f;
+			gck[1].color = Color.white;
+			gck[1].time = 1f;
+			GradientAlphaKey[] gak = new GradientAlphaKey[2];
+			gak[0].alpha = 1f;
+			gak[0].time = 0f;
+			gak[1].alpha = 0f;
+			gak[1].time = 1f;
+			g.SetKeys(gck, gak);
+			colorOverLifeTime = g;
+			
+			
+			sizeOverLifeTime = AnimationCurve.Constant(0f, 1f, 1f);
+			mixMode = MixMode.Multiply;
+			activationMode = ActivationMode.Manual;
+			enableRaycastTarget = false;
+			
+			onFinishedEvent = new UnityEvent();
+			UnityEditor.Events.UnityEventTools.AddPersistentListener (onFinishedEvent, () => { gameObject.SetActive(false); });
+		}
+		
+		
 		#endregion
 		
 		#region INTERNAL_FIELDS
@@ -108,6 +167,8 @@ namespace X_Utils.UI
 
 		#endregion
 		
+		
+		
 		/// <summary>
 		/// Updates the crossfading state of the UI element by given ratio.
 		/// </summary>
@@ -152,7 +213,6 @@ namespace X_Utils.UI
 			_graphic.raycastTarget = _startRaycastTarget;
 			
 			onFinishedEvent.Invoke();
-			
 		}
 
 		/// <summary>
