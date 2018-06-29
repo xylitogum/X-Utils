@@ -9,7 +9,7 @@ Examples:
 ```csharp
 [MinMaxSlider(0f, 1.0f)]
 ```
-![Figure-Properties-MinMaxSlider-1](https://raw.github.com/xylitogum/X-Utils/tree/master/Screenshots/range_example_1.png?raw=true "MinMaxSlider Example 1")
+![Figure-Properties-MinMaxSlider-1](https://raw.github.com/xylitogum/X-Utils/master/Screenshots/range_example_1.png?raw=true "MinMaxSlider Example 1")
 This example above will create a slider for a Vector2(float, float) between -1.0f and 1.0f.
 
 
