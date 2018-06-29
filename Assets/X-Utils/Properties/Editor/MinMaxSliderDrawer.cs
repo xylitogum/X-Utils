@@ -8,7 +8,6 @@ class MinMaxSliderDrawer : PropertyDrawer
 {
     //private const float FIELD_WIDTH = 40f;
     private const float LABEL_WIDTH = 35f;
-    private const float LINE_SPACE = 5f;
     private const float FIELD_SPACE = 5f;
     private const string LABEL_MIN = "Min:";
     private const string LABEL_MAX = "Max:";
@@ -19,6 +18,12 @@ class MinMaxSliderDrawer : PropertyDrawer
     float _previousLabelWidth;
     //float _previousFieldWidth;
     
+    MinMaxSliderAttribute minMaxSliderAttribute
+    {
+        get { return ((MinMaxSliderAttribute)attribute); }
+    }
+    
+    
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         _rectPosition = position;
@@ -28,16 +33,17 @@ class MinMaxSliderDrawer : PropertyDrawer
             EditorGUI.LabelField(position, label, "MinMaxSlider only works with Vector2");
             return;
         }
+        
+        //EditorGUI.BeginProperty(position, label, property);
 
         Vector2 range = property.vector2Value;
         float min = range.x;
         float max = range.y;
-        MinMaxSliderAttribute attr = attribute as MinMaxSliderAttribute;
 
         // Draw MinMax Slider
         EditorGUI.BeginChangeCheck();
         Rect rect = new Rect(position.x, position.y, position.width, GetHeight());
-        EditorGUI.MinMaxSlider(rect, label, ref min, ref max, attr.min, attr.max);
+        EditorGUI.MinMaxSlider(rect, label, ref min, ref max, minMaxSliderAttribute.min, minMaxSliderAttribute.max);
         if (EditorGUI.EndChangeCheck())
         {
             range.x = min;
@@ -55,48 +61,29 @@ class MinMaxSliderDrawer : PropertyDrawer
         
         EditorGUI.BeginChangeCheck();
 
-        if (attr.hasInt)
+        min = EditorGUI.FloatField(
+            new Rect(GetFieldX(0), GetFieldY(1), GetFieldWidth(), GetHeight()),
+            new GUIContent(LABEL_MIN), min);
+        max = EditorGUI.FloatField(
+            new Rect(GetFieldX(1), GetFieldY(1), GetFieldWidth(), GetHeight()),
+            new GUIContent(LABEL_MAX), max);
+        if (EditorGUI.EndChangeCheck())
         {
-            int intMin = EditorGUI.IntField(
-                new Rect(GetFieldX(0), GetFieldY(1), GetFieldWidth(), GetHeight()),
-                new GUIContent(LABEL_MIN), (int)min);
-            int intMax = EditorGUI.IntField(
-                new Rect(GetFieldX(1), GetFieldY(1), GetFieldWidth(), GetHeight()),
-                new GUIContent(LABEL_MAX), (int)max);
-            if (EditorGUI.EndChangeCheck())
-            {
-                range.x = Mathf.Clamp(intMin, attr.min, attr.max);
-                range.y = Mathf.Clamp(intMax, attr.min, attr.max);
-                property.vector2Value = range;
+            range.x = Mathf.Clamp(min, minMaxSliderAttribute.min, minMaxSliderAttribute.max);
+            range.y = Mathf.Clamp(max, minMaxSliderAttribute.min, minMaxSliderAttribute.max);
+            property.vector2Value = range;
             
-            }
-        }
-        else
-        {
-            min = EditorGUI.FloatField(
-                new Rect(GetFieldX(0), GetFieldY(1), GetFieldWidth(), GetHeight()),
-                new GUIContent(LABEL_MIN), min);
-            max = EditorGUI.FloatField(
-                new Rect(GetFieldX(1), GetFieldY(1), GetFieldWidth(), GetHeight()),
-                new GUIContent(LABEL_MAX), max);
-            if (EditorGUI.EndChangeCheck())
-            {
-                range.x = Mathf.Clamp(min, attr.min, attr.max);
-                range.y = Mathf.Clamp(max, attr.min, attr.max);
-                property.vector2Value = range;
-            
-            }
         }
 
         
-        //EditorGUI.EndProperty();
         EditorGUIUtility.labelWidth = _previousLabelWidth;
         //EditorGUIUtility.fieldWidth = _previousFieldWidth;
+        //EditorGUI.EndProperty();
 
     }
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label) {
-        return _numberOfLines*(EditorGUI.GetPropertyHeight(property, label) + LINE_SPACE);
+        return _numberOfLines*(EditorGUI.GetPropertyHeight(property, label) + EditorGUIUtility.standardVerticalSpacing);
     }
 
     #region GUI_SIZE
@@ -108,7 +95,7 @@ class MinMaxSliderDrawer : PropertyDrawer
     
     float GetHeight()
     {
-        return _rectPosition.height /(float)_numberOfLines - LINE_SPACE;
+        return _rectPosition.height /(float)_numberOfLines - EditorGUIUtility.standardVerticalSpacing;
     }
 
     float GetFieldX(int id)

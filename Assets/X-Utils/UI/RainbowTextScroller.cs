@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace X-Utils.UI
+namespace X_Utils.UI
 {
+    
     [RequireComponent(typeof(Text))]
     public class RainbowTextScroller : MonoBehaviour
     {
@@ -12,13 +13,18 @@ namespace X-Utils.UI
         public float interval = 0.4f;
         private float t_lastStep;
         private int index = 0;
-        private Text UIText;
+        private Text _text;
         private string originalText = "";
+
+        void Awake()
+        {
+            _text = GetComponent<Text>();
+        }
+        
         // Use this for initialization
         void Start()
         {
-            UIText = GetComponent<Text>();
-            originalText = UIText.text;
+            originalText = _text.text;
             t_lastStep = 0f;
         }
 
@@ -45,7 +51,7 @@ namespace X-Utils.UI
             string result = originalText;
             result = result.Insert(i + 1, endTag);
             result = result.Insert(i, startTag);
-            UIText.text = result;
+            _text.text = result;
         }
     }
 }

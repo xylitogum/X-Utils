@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
-namespace X-Utils.UI
+namespace X_Utils.UI
 {
     public class MouseOverHighlight : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
@@ -21,11 +21,16 @@ namespace X-Utils.UI
 
         private Vector3 savedScale = Vector3.one;
         private Shadow m_shadow;
+
+        void Awake()
+        {
+            m_shadow = GetComponent<Shadow>();
+        }
+        
         // Use this for initialization
         void Start()
         {
             savedScale = transform.localScale;
-            m_shadow = GetComponent<Shadow>();
             if (m_shadow) m_shadow.enabled = false;
         }
 

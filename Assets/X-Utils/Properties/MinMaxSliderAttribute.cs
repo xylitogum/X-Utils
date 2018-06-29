@@ -9,12 +9,12 @@ public class MinMaxSliderAttribute : PropertyAttribute
 
     public readonly float max;
     public readonly float min;
-    public readonly bool hasInt;
+    //public readonly bool hasInt;
 
-    public MinMaxSliderAttribute(float min, float max, bool hasInt = false)
+    public MinMaxSliderAttribute(float min, float max)
     {
         this.min = min;
         this.max = max;
-        this.hasInt = hasInt;
+        //this.hasInt = hasInt;
     }
 }

@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
@@ -7,19 +7,25 @@ using UnityEditor;
 class ConditionalHideDrawer : PropertyDrawer
 {
 
+    
+    ConditionalHideAttribute conditionalHideAttribute
+    {
+        get { return ((ConditionalHideAttribute)attribute); }
+    }
+    
     public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
     {
         //get the attribute data
-        ConditionalHideAttribute condHAtt = (ConditionalHideAttribute)attribute;
+        
         //check if the propery we want to draw should be enabled
-        bool enabled = GetConditionalHideAttributeResult(condHAtt, property);
+        bool enabled = GetConditionalHideAttributeResult(property);
 
         //Enable/disable the property
         bool wasEnabled = GUI.enabled;
         GUI.enabled = enabled;
 
         //Check if we should draw the property
-        if (!condHAtt.HideInInspector || enabled)
+        if (!conditionalHideAttribute.HideInInspector || enabled)
         {
             EditorGUI.PropertyField(position, property, label, true);
         }
@@ -29,7 +35,7 @@ class ConditionalHideDrawer : PropertyDrawer
     }
 
 
-    private bool GetConditionalHideAttributeResult(ConditionalHideAttribute condHAtt, SerializedProperty property)
+    private bool GetConditionalHideAttributeResult(SerializedProperty property)
     {
         
         bool enabled = true;
@@ -40,7 +46,7 @@ class ConditionalHideDrawer : PropertyDrawer
         SerializedProperty sourceProperty = sourceObject.FindProperty(variableName[0]);
         string sourcePropertyPath = sourceProperty.propertyPath; 
         
-        string conditionPath = sourcePropertyPath.Replace(sourceProperty.name, condHAtt.ConditionalSourceField);
+        string conditionPath = sourcePropertyPath.Replace(sourceProperty.name, conditionalHideAttribute.ConditionalSourceField);
         SerializedProperty resultProperty = sourceObject.FindProperty(conditionPath);
         
         if (variableName.Length > 1 && variableName[1] == "Array") // Property is an element insied an array
@@ -54,7 +60,7 @@ class ConditionalHideDrawer : PropertyDrawer
         }
         else
         {
-            Debug.LogWarning("Attempting to use a ConditionalHideAttribute but no matching SourcePropertyValue found in object: " + condHAtt.ConditionalSourceField);
+            Debug.LogWarning("Attempting to use a ConditionalHideAttribute but no matching SourcePropertyValue found in object: " + conditionalHideAttribute.ConditionalSourceField);
         }
 
         return enabled;
@@ -62,10 +68,9 @@ class ConditionalHideDrawer : PropertyDrawer
 
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        ConditionalHideAttribute condHAtt = (ConditionalHideAttribute)attribute;
-        bool enabled = GetConditionalHideAttributeResult(condHAtt, property);
+        bool enabled = GetConditionalHideAttributeResult(property);
 
-        if (!condHAtt.HideInInspector || enabled)
+        if (!conditionalHideAttribute.HideInInspector || enabled)
         {
             return EditorGUI.GetPropertyHeight(property, label);
         }
