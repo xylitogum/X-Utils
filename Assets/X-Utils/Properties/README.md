@@ -21,6 +21,7 @@ Disable is a type of property attribute that hides the serialized property which
 public string testString;
 ```
 ![Figure-Properties-Disabled-1](https://raw.github.com/xylitogum/X-Utils/master/Screenshots/disabled_example_1.png?raw=true "Disabled Example 1")
+
 This example above will display the string field named "testString", but the user is unable to edit its value through InspectorGUI.
 
 
