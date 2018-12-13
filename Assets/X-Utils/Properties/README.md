@@ -75,3 +75,23 @@ public float swimDepth;
 public float flyHeight;
 ```
 This example above will function exactly same as the one above it.
+
+
+# EnumMask
+EnumHide can be placed on Enums that are used as flags (marked with "System.Flags"). It will allow you to toggle the mask on each type, as well as adding "Everything" and "Nothing" options to it. Works similarly as a customized version of "LayerMask".
+```csharp
+[System.Flags]
+public enum WeaponMask
+{
+    Knife = 1<<0,
+    Handgun = 1<<1,
+    Shotgun = 1<<2,
+    Rifle = 1<<3,
+    Lasergun = 1<<4,   
+}
+
+[EnumMask]
+public WeaponMask allowedWeapons;
+```
+This example above will display the MaskField in the inspector allowing you to toggle the mask state of each weapon. As the naming explains, the use case here is something like a list of allowed weapons.
+
