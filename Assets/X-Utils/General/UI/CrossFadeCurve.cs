@@ -52,7 +52,7 @@ namespace X_Utils.UI
 		[Tooltip("These actions will be invoked when the crossfade finishes.")]
 		public UnityEvent onFinishedEvent;
 
-
+		#if UNITY_EDITOR
 		[ContextMenu("Set to Fade In")]
 		void TemplateFadeIn()
 		{
@@ -105,7 +105,7 @@ namespace X_Utils.UI
 			onFinishedEvent = new UnityEvent();
 			UnityEditor.Events.UnityEventTools.AddPersistentListener (onFinishedEvent, () => { gameObject.SetActive(false); });
 		}
-		
+		#endif
 		
 		#endregion
 		
